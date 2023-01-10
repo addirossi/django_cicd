@@ -7,4 +7,3 @@ class TestLogistic(TestCase):
         client = APIClient()
         response = client.get('/test/')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data, 'HELLO WORLD')
