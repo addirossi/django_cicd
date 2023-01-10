@@ -58,6 +58,6 @@ jobs:
           DB_ENGINE: ${{ env.POSTGRES_ENGINE }}
           DB_USER: ${{ env.POSTGRES_USER }}
           DB_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
-          DB_NAME: ${{ env. POSTGRES_DB}}
+          DB_NAME: ${{ env.POSTGRES_DB}}
           DB_HOST: ${{ env.POSTGRES_HOST }}
           DB_PORT: ${{ env.POSTGRES_PORT }}
