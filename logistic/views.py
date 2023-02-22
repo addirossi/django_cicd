@@ -1,5 +1,7 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
 from .models import Stock, Product
@@ -19,3 +21,8 @@ class StockViewSet(ModelViewSet):
     filter_backends = [DjangoFilterBackend, SearchFilter]
     filterset_fields = ['products']
     search_fields = ['products__title', 'products__description']
+
+
+class TestView(APIView):
+    def get(self, request):
+        return Response('Hello, world!')
