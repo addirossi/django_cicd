@@ -5,3 +5,4 @@ django-filter
 python-dotenv
 gunicorn
 requests
+flake8

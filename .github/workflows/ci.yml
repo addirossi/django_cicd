@@ -1,0 +1,61 @@
+name: Тестирование и развертывание проекта
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  tests:
+    runs-on: ubuntu-22.04
+    env:
+      SECRET_VALUE: ${{ secrets.SECRET }}
+      DEBUG_MODE: ${{ secrets.DEBUG_MODE }}
+      ALLOWED: ${{ secrets.ALLOWED_HOSTS }}
+      ENGINE: ${{ secrets.DB_ENGINE }}
+      USER: ${{ secrets.DB_USER }}
+      PASSWORD: ${{ secrets.DB_PASSWORD }}
+      NAME: ${{ secrets.DB_NAME }}
+      HOST: ${{ secrets.DB_HOST }}
+      PORT: ${{ secrets.DB_PORT }}
+    services:
+      postgres_main:
+        image: postgres:12
+        env:
+          POSTGRES_DB: ${{ env.NAME }}
+          POSTGRES_USER: ${{ env.USER }}
+          POSTGRES_PASSWORD: ${{ env.PASSWORD }}
+        ports:
+          - 5432:5432
+        options:
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - name: Проверяем репозиторий на наличие изменений
+        uses: actions/checkout@v4
+
+      - name: Установка python и окружения
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Установка библиотек
+        run: pip install -r requirements.txt
+
+      - name: Линтинг
+        run: flake8 logistic/ --exclude=logistic/migrations/
+
+      - name: Тестирование
+        run: python manage.py test
+        env:
+          SECRET_KEY: ${{ env.SECRET_VALUE }}
+          DEBUG: ${{ env.DEBUG_MODE }}
+          ALLOWED_HOSTS: ${{ env.ALLOWED }}
+          DB_ENGINE: ${{ env.ENGINE }}
+          DB_NAME: ${{ env.NAME }}
+          DB_USER: ${{ env.USER }}
+          DB_PASSWORD: ${{ env.PASSWORD }}
+          DB_HOST: ${{ env.HOST }}
+          DB_PORT: ${{ env.PORT }}
