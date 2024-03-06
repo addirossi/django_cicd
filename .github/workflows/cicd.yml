@@ -62,3 +62,11 @@ jobs:
           DB_PASSWORD: ${{ env.PASSWORD }}
           DB_HOST: ${{ env.HOST }}
           DB_PORT: ${{ env.PORT }}
+
+      - name: Деплой
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: expect /home/adilet/django_cicd/deploy.exp
