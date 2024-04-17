@@ -66,4 +66,4 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASSWORD }}
-          script: expect /home/user/django_cicd/django.exp
+          script: expect /home/user/django_cicd/deploy.exp
