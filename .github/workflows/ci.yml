@@ -42,7 +42,7 @@ jobs:
           python-version: 3.9
 
       - name: Установка зависимостей
-        run: pip install -r requirements.txt --upgrade-pip
+        run: pip install -r requirements.txt --upgrade pip
 
       - name: Линтинг
         run: flake8 logistic/ --exclude=logistic/migrations/
